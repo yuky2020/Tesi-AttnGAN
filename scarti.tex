@@ -1,0 +1,87 @@
+Quando si tratta d’imparare, o apprendere, da dati presenti… Abbastanza. Perlomeno è intuitivo.
+Come facciamo però a generare dei dati che siano verosimili?
+
+Ecco che entrano in gioco le GAN.
+
+Nel precedente post abbiamo chiarito che il framework di Generative Adversarial Nets prevede due Deep Networks: un generatore, Generator G, e un discriminatore, Discriminator D.
+
+Prima di capire come allenare un generatore, comprendiamo il sistema attraverso cui avviene la generazione dell’informazione: una immagine.
+
+Generating random variables
+Come input per il nostro modello, occorre generare dei numeri casuali.
+
+Questa apparentemente semplice operazione nasconde un’insidia.
+
+I computer, queste stupide seppur preziose macchine, sono sistemi deterministici per natura.
+
+Cosa significa?
+
+È teoricamente impossibile generare numeri realmente casuali (potremmo aprire una digressione filosofia sul concetto di casualità, anche se per il momento penso sia meglio tralasciare).
+
+La soluzione è definire algoritmi che generino sequenze numeriche, le cui proprietà risultino affini a quelle generate casualmente.
+
+Aumentando la complessità, possiamo dire che usando un generatore numerico pseudocasuale siamo in grado di creare sequenze di numeri che seguono approssimativamente una distribuzione uniforme tra 0 e 1.
+
+Si tratta di un caso elementare questo: variabili casuali complesse possono essere inizializzate con sistemi differenti.
+
+Un esempio?
+
+Metodi di Inverse Tranform Samping, molto utili per stupire colleghi e amici, ma poco per comprendere davvero il funzionamento di un Rete Generativa Avversaria.
+
+Non facciamoci distrarre dalle affascinanti sirene lungo il tragitto: manteniamo il focus sull’orizzonte.
+
+Ora che abbiamo il nostro input z, usiamo il Generator G per creare un’immagine x.
+
+Perfetto. Finito. Tutti amici come prima.
+
+Beh… non proprio.
+
+Concettualmente, z è la rappresentazione delle caratteristiche latenti dell’immagine generate.
+
+Quali sono queste caratteristiche? Non chiedere. Non le conosciamo.
+
+Vedi, questa è la magia: non controlliamo il significato semantico di quelle caratteristiche, lo gestisce interamente la rete neurale e spetta al processo di training capire quali siano.
+
+Facciamo finta che tu sia una persona ostinata e curiosa.
+
+Vuoi sapere cosa accada under the hood ? Benissimo!
+
+Possiamo stampare le immagini generate ed esaminarle.
+
+Come ci spiega questo articolo accademico, ecco l’aspetto dei volti che potremmo ottenere:
+
+
+Progressive growing of GANs from CELEBA-HQ dataset.
+Ok Ok.
+
+Non so te, ma a me sembra ci siano parecchi buchi di logici.
+
+
+
+
+
+!TO sub section generator discriminator and dataset
+Consideriamo un’applicazione di GANs, nel dettaglio una così detta CycleGAN.
+
+Per il momento devi sapere che questa rete può applicare a un’immagine reale lo stile di Monet.
+
+
+Allenato con immagini reali e generate, una GAN è in grado di affinare il Discriminator per riconoscere le caratteristiche veritiere.
+
+Lo stesso Discriminator fornisce poi un feedback al Generator affinché crei dipinti simili a quelli di Monet.
+Il discrimintaore guida quindi il generatore sull’immagine da creare;
+
+Tecnicamente 
+
+
+
+Il discriminatore è simile a un classificatore binario : 1, immagine reale; 0, immagine generata.
+
+Allo stesso tempo vogliamo però che il Generatore crei immagini che riproducano quelle reali, e che siano quindi interpretate dal discriminatore come D(x) = 1.
+
+ l’algoritmo di retropropagazione dell’errore (che abbiamo spiegato in questo lungo seppur fondamentale post) corre in nostro soccorso.
+
+
+Al termine del processo di training, i modelli di GAN convergono e producono immagini che sembrano reali.
+
+
